@@ -7,15 +7,15 @@ class Vehicle implements TeslaObject {
   final TeslaClient client;
 
   @override
-  final Map<String, dynamic> json;
+  final Map<String, dynamic>? json;
 
-  int get id => json["id"];
-  int get vehicleId => json["vehicle_id"];
-  String get vin => json["vin"];
-  String get displayName => json["display_name"];
-  String get rawOptionCodes => json["option_codes"];
-  List<String> get optionCodes => rawOptionCodes.split(",");
-  List<VehicleOptionCode> get knownOptionCodes => optionCodes
+  int? get id => json!["id"];
+  int? get vehicleId => json!["vehicle_id"];
+  String? get vin => json!["vin"];
+  String? get displayName => json!["display_name"];
+  String? get rawOptionCodes => json!["option_codes"];
+  List<String> get optionCodes => rawOptionCodes!.split(",");
+  List<VehicleOptionCode?> get knownOptionCodes => optionCodes
       .map(VehicleOptionCode.lookup)
       .where((item) => item != null)
       .toList();
@@ -23,19 +23,19 @@ class Vehicle implements TeslaObject {
   List<String> get unknownOptionCodes =>
       optionCodes.where((x) => VehicleOptionCode.lookup(x) == null).toList();
 
-  String get color => json["color"];
-  List<String> get tokens => (json["tokens"] as List)
+  String? get color => json!["color"];
+  List<String> get tokens => (json!["tokens"] as List)
       .where((it) => it is String)
       .map((it) => it as String)
       .toList();
-  String get state => json["state"];
-  bool get isInService => json["in_service"];
-  String get idString => json["id_s"];
-  bool get isCalendarEnabled => json["calendar_enabled"];
-  int get apiVersion => json["api_version"];
-  String get backseatToken => json["backseat_token"];
+  String? get state => json!["state"];
+  bool? get isInService => json!["in_service"];
+  String? get idString => json!["id_s"];
+  bool? get isCalendarEnabled => json!["calendar_enabled"];
+  int? get apiVersion => json!["api_version"];
+  String? get backseatToken => json!["backseat_token"];
   String get backseatTokenUpdatedAt =>
-      json["backseat_token_updated_at"].toString();
+      json!["backseat_token_updated_at"].toString();
 
   Future<AllVehicleState> getAllVehicleState() async {
     return await client.getAllVehicleState(id);
@@ -77,7 +77,7 @@ class Vehicle implements TeslaObject {
     throw new Exception("Failed to wake up vehicle.");
   }
 
-  Future sendCommand(String command, {Map<String, dynamic> params}) async {
+  Future sendCommand(String command, {Map<String, dynamic>? params}) async {
     await client.sendVehicleCommand(id, command, params: params);
   }
 
@@ -237,7 +237,7 @@ class Vehicle implements TeslaObject {
     await sendCommand("cancel_software_update");
   }
 
-  Future triggerHomeLink({num latitude: 0.0, num longitude: 0.0}) async {
+  Future triggerHomeLink({num? latitude: 0.0, num? longitude: 0.0}) async {
     await sendCommand("trigger_homelink",
         params: {"lat": latitude, "lon": longitude});
   }

@@ -1,6 +1,8 @@
+dependencies:
+  collection: ^1.15.0-nullsafety.4
 name: tesla
 description: "Control and monitor Tesla Products"
 version: 0.5.0-dev
 homepage: "https://github.com/TeslaToolkit/tesla.dart"
 environment:
-  sdk: ">=2.0.0 <3.0.0"
+  sdk: '>=2.12.0 <3.0.0'

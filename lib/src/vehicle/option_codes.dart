@@ -1,3 +1,4 @@
+import 'package:collection/collection.dart' show IterableExtension;
 part of tesla;
 
 class VehicleOptionCode {
@@ -1129,6 +1130,7 @@ class VehicleOptionCode {
   // ignore: constant_identifier_names
   static const VehicleOptionCode YFFC =
       const VehicleOptionCode("YFFC", "Integrated Center Console");
+  static const VehicleOptionCode UNKNOWN = const VehicleOptionCode("UNKNOWN", "<UNKNOWN>>");
 
   static const List<VehicleOptionCode> values = const <VehicleOptionCode>[
     MDLS,
@@ -1510,10 +1512,11 @@ class VehicleOptionCode {
     YF00,
     YF01,
     YFCC,
-    YFFC
+    YFFC,
+    UNKNOWN
   ];
 
   static VehicleOptionCode lookup(String code) {
-    return values.firstWhere((c) => c.code == code, orElse: () => null);
+    return values.firstWhere((c) => c.code == code, orElse: () => UNKNOWN);
   }
 }

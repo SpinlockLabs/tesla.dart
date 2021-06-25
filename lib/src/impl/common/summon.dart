@@ -9,7 +9,7 @@ abstract class SummonCommonClient implements SummonClient {
   final StreamController<SummonMessage> _messageController =
       new StreamController<SummonMessage>();
 
-  Timer _heartbeat;
+  Timer? _heartbeat;
 
   @override
   Stream<SummonMessage> get onMessage => _messageController.stream;
@@ -26,7 +26,7 @@ abstract class SummonCommonClient implements SummonClient {
       return;
     }
 
-    String msgType = message.remove("msg_type");
+    String? msgType = message.remove("msg_type");
 
     SummonMessage event;
 
@@ -75,7 +75,7 @@ abstract class SummonCommonClient implements SummonClient {
       event = new SummonVisualizationMessage(
           path: (message["path"] as List<dynamic>).cast<double>());
     } else {
-      event = new SummonUnknownMessage(msgType, message);
+      event = new SummonUnknownMessage(msgType, message as Map<String, dynamic>);
     }
 
     _messageController.add(event);
@@ -87,7 +87,7 @@ abstract class SummonCommonClient implements SummonClient {
 
   void stopAutoHeartbeat() {
     if (_heartbeat != null) {
-      _heartbeat.cancel();
+      _heartbeat!.cancel();
       _heartbeat = null;
     }
   }

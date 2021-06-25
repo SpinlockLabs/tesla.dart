@@ -18,19 +18,19 @@ HttpClient _createHttpClient() {
 }
 
 class TeslaClientImpl extends TeslaHttpClient {
-  TeslaClientImpl(String email, String password, TeslaAccessToken token,
-      TeslaApiEndpoints endpoints,
-      {HttpClient client})
+  TeslaClientImpl(String email, String password, TeslaAccessToken? token,
+      TeslaApiEndpoints? endpoints,
+      {HttpClient? client})
       : this.client = client == null ? _createHttpClient() : client,
-        super(email, password, token, endpoints);
+        super(email, password, token, endpoints == null ? new TeslaApiEndpoints.standard() : endpoints);
 
   final HttpClient client;
 
   @override
   Future<dynamic> sendHttpRequest(String url,
       {bool needsToken: true,
-      String extract,
-      Map<String, dynamic> body}) async {
+      String? extract,
+      Map<String, dynamic>? body}) async {
     var uri = endpoints.ownersApiUrl.resolve(url);
 
     if (endpoints.enableProxyMode) {
@@ -44,7 +44,7 @@ class TeslaClientImpl extends TeslaHttpClient {
       if (!isCurrentTokenValid(true)) {
         await login();
       }
-      request.headers.add("Authorization", "Bearer ${token.accessToken}");
+      request.headers.add("Authorization", "Bearer ${token?.accessToken}");
     }
     if (body != null) {
       request.headers.contentType = _jsonContentType;
@@ -69,7 +69,7 @@ class TeslaClientImpl extends TeslaHttpClient {
   }
 
   @override
-  Future<SummonClient> summon(int vehicleId, String token) async {
+  Future<SummonClient> summon(int? vehicleId, String token) async {
     var uri = endpoints.summonConnectUrl.resolve(vehicleId.toString());
     if (endpoints.enableProxyMode) {
       uri = uri.replace(queryParameters: {"__tesla": "summon"});
@@ -79,7 +79,7 @@ class TeslaClientImpl extends TeslaHttpClient {
 
   @override
   Future close() async {
-    await client.close();
+    client.close();
   }
 }
 

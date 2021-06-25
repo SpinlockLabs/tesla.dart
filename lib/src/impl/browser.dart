@@ -8,15 +8,15 @@ import '../../tesla.dart';
 import 'common/http.dart';
 
 class TeslaClientImpl extends TeslaHttpClient {
-  TeslaClientImpl(String email, String password, TeslaAccessToken token,
-      TeslaApiEndpoints endpoints)
+  TeslaClientImpl(String email, String password, TeslaAccessToken? token,
+      TeslaApiEndpoints? endpoints)
       : super(email, password, token, endpoints);
 
   @override
   Future<dynamic> sendHttpRequest(String url,
       {bool needsToken: true,
-      String extract,
-      Map<String, dynamic> body}) async {
+      String? extract,
+      Map<String, dynamic>? body}) async {
     var uri = endpoints.ownersApiUrl.resolve(url);
     var request = new HttpRequest();
     request.open(body == null ? "GET" : "POST", uri.toString());
@@ -37,7 +37,7 @@ class TeslaClientImpl extends TeslaHttpClient {
 
     await request.onLoadEnd.first;
 
-    var content = request.responseText;
+    var content = request.responseText!;
     if (request.status != 200) {
       throw new Exception(
           "Failed to perform action. (Status Code: ${request.status})\n${content}");
@@ -54,7 +54,7 @@ class TeslaClientImpl extends TeslaHttpClient {
   }
 
   @override
-  Future<SummonClient> summon(int vehicleId, String token) async {
+  Future<SummonClient> summon(int? vehicleId, String token) async {
     throw "Summon is not supported.";
   }
 

@@ -26,7 +26,7 @@ const List<String> _credentialsEnvVars = const <String>[
   "TESLA_CREDENTIALS_JSON"
 ];
 
-String _getEnvValue(List<String> possible, [bool error = true]) {
+String? _getEnvValue(List<String> possible, [bool error = true]) {
   for (var key in possible) {
     var dartEnvValue = new String.fromEnvironment(key);
     if (dartEnvValue != null) {
@@ -34,7 +34,7 @@ String _getEnvValue(List<String> possible, [bool error = true]) {
     }
 
     if (Platform.environment.containsKey(key) &&
-        Platform.environment[key].isNotEmpty) {
+        Platform.environment[key]!.isNotEmpty) {
       return Platform.environment[key];
     }
   }
@@ -46,7 +46,7 @@ String _getEnvValue(List<String> possible, [bool error = true]) {
   return null;
 }
 
-String _getCredentialValue(List<String> possible) {
+String? _getCredentialValue(List<String> possible) {
   var path = _getEnvValue(_credentialsEnvVars, false);
 
   if (path != null) {
@@ -65,9 +65,9 @@ String _getCredentialValue(List<String> possible) {
 }
 
 TeslaClient getTeslaClient(
-    {String teslaUsername, String teslaPassword, TeslaApiEndpoints endpoints}) {
-  var email = teslaUsername ?? _getCredentialValue(_emailEnvVars).trim();
-  var password = teslaPassword ?? _getCredentialValue(_passwordEnvVars);
+    {String? teslaUsername, String? teslaPassword, TeslaApiEndpoints? endpoints}) {
+  var email = teslaUsername ?? _getCredentialValue(_emailEnvVars)!.trim();
+  var password = teslaPassword ?? _getCredentialValue(_passwordEnvVars)!;
 
   if (password.startsWith("base64:")) {
     password =

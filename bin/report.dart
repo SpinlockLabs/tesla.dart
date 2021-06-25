@@ -4,7 +4,7 @@ import 'dart:io';
 
 import 'package:tesla/tool.dart';
 
-TeslaClient client;
+late TeslaClient client;
 
 Future _updateVehicle(Vehicle vehicle, [int schedulerTime = 10]) async {
   try {
@@ -13,7 +13,7 @@ Future _updateVehicle(Vehicle vehicle, [int schedulerTime = 10]) async {
     if (vehicle.state != "online") {
       schedulerTime = 10;
 
-      var json = new Map<String, dynamic>.from(vehicle.json);
+      var json = new Map<String, dynamic>.from(vehicle.json!);
       json["timestamp"] = new DateTime.now().millisecondsSinceEpoch;
       print(const JsonEncoder().convert(json));
     } else {
@@ -24,7 +24,7 @@ Future _updateVehicle(Vehicle vehicle, [int schedulerTime = 10]) async {
         schedulerTime = 500;
       }
 
-      var json = new Map<String, dynamic>.from(state.json);
+      var json = new Map<String, dynamic>.from(state.json!);
       json["timestamp"] = new DateTime.now().millisecondsSinceEpoch;
       print(const JsonEncoder().convert(json));
     }

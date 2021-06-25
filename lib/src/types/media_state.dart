@@ -7,7 +7,7 @@ class MediaState implements TeslaObject {
   final TeslaClient client;
 
   @override
-  final Map<String, dynamic> json;
+  final Map<String, dynamic>? json;
 
-  bool get isRemoteControlEnabled => json["remote_control_enabled"];
+  bool? get isRemoteControlEnabled => json!["remote_control_enabled"];
 }
